@@ -1,0 +1,38 @@
+﻿
+@using TopStyleShop.Models
+@using PagedList.Mvc;
+@model PagedList.PagedList<SanPham>
+
+<div class="row">
+    @foreach (var sanpham in Model)
+    {
+        var giaban = @String.Format("{0:0,0}", @sanpham.GiaBan);
+        var giakhuyenmai = @String.Format("{0:0,0}", @sanpham.GiaKhuyenMai);
+        <div class="col-sm-4">
+            <div class="product-image-wrapper">
+                <div class="single-products">
+                    <div class="productinfo text-center">
+                        <img alt="@sanpham.TenSP" src="~/@sanpham.AnhBia" />
+                        <h2>@(sanpham.GiaBan != null ? giakhuyenmai : giaban)</h2>
+                        <p>@sanpham.TenSP</p>
+                    </div>
+                </div>
+                <div class="choose">
+                    <ul class="nav nav-pills nav-justified">
+                        <li><a href="@Url.Action("Details", "Shop", new {id=@sanpham.MaSP})"><i class="fa fa-plus-square"></i>Details</a></li>
+                        <li><a href="@Url.Action("ThemGiohang", "GioHang", new {@MaSP=sanpham.MaSP, @strURL=Request.Url.ToString()})"><i class="fa fa-shopping-cart"></i>Add to cart</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+Trang @(Model.PageCount<Model.PageNumber?0:Model.PageNumber)/@Model.PageCount;
+<div class="=MenuTrang">
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page = page }))
+</div>
+<style>
+    .MenuTrang li {
+        display: inline;
+    }
+</style>

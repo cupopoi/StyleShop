@@ -1,0 +1,13 @@
+﻿@if (Session["Taikhoan"] != null)
+{
+
+    <li><a href="@Url.Action("Profile", "NguoiDung", null , Request.Url.Scheme)">Welcome, @Session["tenkhachhang"] </a></li>
+    <li><a href="@Url.Action("LogOut", "NguoiDung", null, Request.Url.Scheme)">Đăng xuất</a></li>
+
+}
+else
+{
+    <li><a href="~/NguoiDung/DangNhap" class="active">Đăng Nhập</a></li>
+    <li><a href="~/NguoiDung/DangKy" class="active">Đăng Ký</a></li>
+}
+        }

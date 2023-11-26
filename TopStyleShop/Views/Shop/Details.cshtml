@@ -1,0 +1,197 @@
+﻿@model DetailedViewModel
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+<div class="product-details">
+    <!--product-details-->
+    <div class="col-sm-12">
+        <h4>CHI TIẾT SẢN PHẨM</h4>
+    </div>
+    <div class="col-sm-5">
+        <div class="view-product">
+            <div id="similar-product" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="item active">
+                        <a href="/@Model.SanPham.AnhBia">
+                            <img src="/@Model.SanPham.AnhBia" alt="">
+                        </a>
+                    </div>
+
+                    <!-- Wrapper for slides -->
+                    @foreach (var hinhanh in Model.HinhAnh)
+                    {
+                        <div class="item">
+                            <a href="/@hinhanh.TenHinhAnh">
+                                <img src="/@hinhanh.TenHinhAnh" alt="">
+                            </a>
+                        </div>
+                    }
+
+                </div>
+            </div>
+
+            <!-- Controls -->
+            <a class="left item-control" href="#similar-product" data-slide="prev">
+                <i class="fa fa-angle-left"></i>
+            </a>
+            <a class="right item-control" href="#similar-product" data-slide="next">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        </div>
+        <!---->
+
+    </div>
+    <div class="col-sm-7">
+        <!--/product-information-->
+        <div class="box">
+            <h1 class="text-center">@Model.SanPham.TenSP</h1>
+            @{
+                var gb = Model.SanPham.GiaBan;
+                string giaban = $"{gb:N}";
+                var gkm = Model.SanPham.GiaKhuyenMai;
+                string giakhuyenmai = $"{gkm:N}";
+                if (@Model.SanPham.GiaKhuyenMai != null)
+                {
+                    var saleprice = (int)@Model.SanPham.GiaKhuyenMai;
+                    <p class="price">Giá tiền: <span style="text-decoration: line-through">@giaban</span> VNĐ</p>
+                    <p class="price">Khuyến mãi: @saleprice.ToString("0,0") VNĐ</p>
+                }
+                else
+                {
+                    <p class="price">Giá tiền: @giaban VNĐ</p>
+                }
+            }
+            <table>
+                <tr>
+                    <td><label>Kích thước: </label></td>
+                    <td>
+                        <select class="form-control" id="size">
+                            @foreach (var item in Model.SanPhamSize.ToList())
+                            {
+                                <option value="@item.MaS">@item.Size.TenS</option>
+                            }
+                        </select>
+                    </td>
+                </tr>
+                <tr><td></td><td></td></tr>
+            </table>
+            <div id="Datmua" style="margin-top:20px;" class="text-center buttons">
+                <a href="@Url.Action("ThemGiohang", "GioHang", new {@MaSP=Model.SanPham.MaSP, @strURL=Request.Url.ToString()})" class="btn btn-primary cart">
+                    <i class="fa fa-shopping-cart"></i>
+                    Thêm vào giỏ hàng
+                </a>
+            </div>
+        </div>
+
+
+        <!--/product-information-->
+    </div>
+</div>
+<div>
+    <h4>Thông tin</h4>
+    <h5>@Html.DisplayTextFor(x => x.SanPham.ThongTin)</h5>
+    <blockquote style="margin-top: 20px;">
+        <p>Mọi thắc mắc về sản phẩm xin liên hệ: </p>
+        <p>Hotline: 0975645410</p>
+        <p>Giờ làm việc: 8h - 21h thứ 2 đến thứ 6; 8h - 17h thứ 7, chủ nhật</p>
+    </blockquote>
+</div>
+<h4>Bình luận</h4>
+@foreach (var cmt in Model.BinhLuan.ToList())
+{
+    <div id="comments" data-animate="fadeInUp">
+        <div class="row comment">
+            <div class="col-sm-3 col-md-2 text-center-xs">
+                <p>
+                    <img src="~/Assets/Client/img/icon-profile.jpg" class="img-responsive img-circle">
+                </p>
+            </div>
+            <div class="col-sm-9 col-md-10">
+                <h5>@cmt.KhachHang.HoTen</h5>
+                <p class="posted"><i class="fa fa-clock-o"></i> Ngày gửi: @cmt.NgayBL</p>
+                <p>@cmt.NoiDung</p>
+            </div>
+        </div>
+    </div>
+}
+
+<div id="comment-form" data-animate="fadeInUp">
+    <h4>Để lại bình luận</h4>
+    @using (Html.BeginForm("Create", "BinhLuans", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label for="name">
+                        Tiêu đề<span class="required">*</span>
+                    </label>
+                    <input type="text" class="form-control" id="TieuDe" name="TieuDe">
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="MaSP" value="@Model.SanPham.MaSP" />
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label for="comment">
+                        Bình luận <span class="required">*</span>
+                    </label>
+                    <textarea class="form-control" id="NoiDung" name="NoiDung" rows="4"></textarea>
+                </div>
+            </div>
+        </div>
+        if (Session["Taikhoan"] == null || Session["Taikhoan"].ToString() == "")
+        {
+            <div class="row">
+                <div class="col-sm-12 text-right">
+                    <a href="#" data-toggle="modal" data-target="#login-modal" class="btn btn-primary"><i class="fa fa-comment-o"></i>Gửi bình luận</a>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="row">
+                <div class="col-sm-12 text-right">
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-comment-o"></i> Gửi bình luận</button>
+                </div>
+            </div>
+        }
+
+    }
+</div>
+<div class="category-tab shop-details-tab" style="PADDING-TOP: 10px;">
+    <!--category-tab-->
+    <div class="col-sm-12">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#cungloai" data-toggle="tab">CÙNG LOẠI</a></li>
+        </ul>
+    </div>
+    <div class="tab-content">
+        <div class="tab-pane fade active in" id="cungloai">
+            @foreach (var sanpham in Model.SanPhamCungloai)
+            {
+                <div class="col-sm-4">
+                    <div class="product-image-wrapper">
+                        <div class="single-products">
+                            <div class="productinfo text-center">
+                                <img alt="@sanpham.TenSP" src="~/@sanpham.AnhBia" />
+                                <h2>@sanpham.GiaBan</h2>
+                                <p>@sanpham.TenSP</p>
+                            </div>
+                        </div>
+                        <div class="choose">
+                            <ul class="nav nav-pills nav-justified">
+                                <li><a href="@Url.Action("Details", "ShopQuanAo", new {id=@sanpham.MaSP})"><i class="fa fa-plus-square"></i>CHI TIẾT</a></li>
+                                <li><a href="#"><i class="fa fa-shopping-cart"></i>Add to cart</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+

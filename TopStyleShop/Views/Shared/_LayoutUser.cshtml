@@ -1,0 +1,170 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <meta charset="utf-8">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- <title>Home | E-Shopper</title> -->
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet">
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet">
+    <link href="~/Content/prettyPhoto.css" rel="stylesheet">
+    <link href="~/Content/price-range.css" rel="stylesheet">
+    <link href="~/Content/animate.css" rel="stylesheet">
+    <link href="~/Content/main.css" rel="stylesheet">
+    <link href="~/Content/responsive.css" rel="stylesheet">
+
+    <!--[if lt IE 9]>
+    <script src="~/Scripts/html5shiv.js"></script>
+    <script src="~/Scripts/respond.min.js"></script>
+    <![endif]-->
+    <link rel="shortcut icon" href="~/images/ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="~/images/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="~/images/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="~/images/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="~/images/ico/apple-touch-icon-57-precomposed.png">
+</head>
+<!--/head-->
+<body>
+    <header id="header">
+        <div class="header-middle" style="background: rgb(52, 48, 48);">
+            <!--header-middle-->
+            <div class="container">
+                <div class="row">
+                    <div>
+                        <a class="brand pull-left" href="@Url.Action("Index", "Shop", null , Request.Url.Scheme)"><span style="font-size: 35px;color: white;">TopStyle-Shop</span></a>
+                        <a class="search_box pull-left" style="padding-top: 7px;padding-left: 15px;">
+                            @using (Html.BeginForm("Search", "Shop", FormMethod.Post))
+                            {
+                                <input type="text" id="pid" name="pid" placeholder="Search" style="width: 441px;" />
+                            }
+                        </a>
+                    </div>
+                    <div style="display: -webkit-box;padding-top: 7px;">
+                        <div class="shop-menu pull-right">
+                            <ul class="nav navbar-nav">
+                                <li><a href="@Url.Action("Index", "Shop", null , Request.Url.Scheme)">Trang chủ</a></li>
+                                <li style="padding-top: 10px;padding-left: 0px;"> @Html.Action("GiohangPartial", "Giohang")</li>
+                                <li style="padding-top: 10px;padding-left: 0px;"> @Html.Action("LoginPartial", "NguoiDung", null)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--/header-middle-->
+        <!--/header-bottom-->
+    </header><!--/header-->
+    <!--slider-->
+    @*   @Html.Action("QuangCao","ShopQuanAo")*@
+    <!--/slider-->
+
+        <section>
+            <div class="container">
+                <div class="col-sm-3">
+                    <div class="left-sidebar">
+                        <h2 style="color:#333">THỂ LOẠI</h2>
+                        <div class="panel-group category-products" id="accordian">
+                            <!--category-productsr-->
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#accordian" href="#mens">
+                                            <span class="badge pull-right"><i class="fa fa-plus"></i></span>
+                                            NAM
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="mens" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <ul>
+                                            @Html.Action("LoaiSPTheoGioiTinhNam", "Shop")
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#accordian" href="#womens">
+                                            <span class="badge pull-right"><i class="fa fa-plus"></i></span>
+                                            NỮ
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="womens" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <ul>
+                                            @Html.Action("LoaiSPTheoGioiTinhNu", "Shop")
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#accordian" href="#mensPanel">
+                                            <span class="badge pull-right"><i class="fa fa-plus"></i></span>
+                                            Tất cả loại sản phẩm
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="mensPanel" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <ul>
+                                            @Html.Action("LoaiSP", "Shop")
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <!--/category-products-->
+
+                        <div class="brands_products">
+                            <!--brands_products-->
+                            @Html.Action("DanhMucBST","Shop")
+                        </div><!--/brands_products-->
+
+                        <div class="shipping text-center">
+                            <!--shipping-->
+                            <img src="~/images/home/09471.jpg" alt="" />
+                        </div><!--/shipping-->
+
+                    </div>
+                </div>
+                <div class="col-sm-9 padding-right">
+                    <div>
+
+                        @RenderBody()
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer id="footer">
+            <!--Footer-->
+            <div class="footer-bottom">
+                <div class="container">
+                    <div class="row">
+                        <p class="pull-left">SHOP-QUANAO</p>
+                    </div>
+                </div>
+            </div>
+        </footer><!--/Footer-->
+
+
+
+    <script src="~/Scripts/jquery.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery.scrollUp.min.js"></script>
+    <script src="~/Scripts/price-range.js"></script>
+    <script src="~/Scripts/jquery.prettyPhoto.js"></script>
+    <script src="~/Scripts/main.js"></script>
+</body>
+</html>

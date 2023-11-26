@@ -1,0 +1,32 @@
+﻿@model IEnumerable<TopStyleShop.Models.SanPham>
+
+
+<div class="row">
+    @foreach (var sanpham in Model)
+    {
+        var giaban = @String.Format("{0:0,0}", @sanpham.GiaBan);
+        var giakhuyenmai = @String.Format("{0:0,0}", @sanpham.GiaKhuyenMai);
+        <div class="col-sm-4">
+            <div class="product-image-wrapper">
+                <div class="single-products">
+                    <div class="productinfo text-center">
+                        <img alt="@sanpham.TenSP" src="~/@sanpham.AnhBia" />s
+                        <h2>@(sanpham.GiaBan != null ? giakhuyenmai : giaban)</h2>
+                        <p>@sanpham.TenSP</p>
+                    </div>
+                    <div class="ribbon new">
+                        <div class="theribbon">MỚI</div>
+                        <div class="ribbon-background"></div>
+                    </div>
+                </div>
+                <div class="choose">
+                    <ul class="nav nav-pills nav-justified">
+                        <li><a href="@Url.Action("Details", "Shop", new {id=@sanpham.MaSP})"><i class="fa fa-plus-square"></i>CHI TIẾT</a></li>
+                        <li><a href="@Url.Action("ThemGiohang", "GioHang", new {@MaSP=sanpham.MaSP, @strURL=Request.Url.ToString()})"><i class="fa fa-shopping-cart"></i>Add to cart</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+

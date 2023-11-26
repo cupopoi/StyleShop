@@ -1,0 +1,25 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+<div class="features_items">
+    <div class="category-tab">
+        <div class="col-sm-12">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#moinhat" data-toggle="tab">MỚI NHẤT</a></li>
+                <li><a href="#tatca" data-toggle="tab">TẤT CẢ</a></li>
+            </ul>
+        </div>
+        <div class="tab-content">
+            <div class="tab-pane fade active in" id="moinhat">
+                @Html.Action("IndexLaymoi", "Shop")
+            </div>
+            <!---->
+            <div class="tab-pane fade" id="tatca">
+               @Html.Action("IndexLayhet", "Shop")
+            </div>
+            <!---->
+        </div>
+    </div>
+</div>

@@ -1,0 +1,17 @@
+﻿@model IEnumerable<TopStyleShop.Models.BoSuuTap>
+
+
+
+<div class="brands_products">
+    <!--brands_products-->
+    <h2 style="color:#333">BỘ SƯU TẬP</h2>
+    <div class="brands-name">
+        <ul class="nav nav-pills nav-stacked">
+            @foreach (var item in Model)
+            {
+                <li><a href="@Url.Action("SanPhamTheoBST", "Shop", new { id = item.MaBST})">@item.TenBST</a></li>
+
+            }
+        </ul>
+    </div>
+</div>
